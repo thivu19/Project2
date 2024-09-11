@@ -1,0 +1,80 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+
+{% block title %}{{ listing.name }}{% endblock %}
+
+{% block body %}
+    {% if message %}
+        <div class="alert alert-primary" role="alert">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <h2>Listings: {{ listing.name }}</h2>
+    <div>
+        {% if user.is_authenticated %}
+            {% if user == listing.seller %}
+                <a href="{% url 'close' listing.id %}" class="btn btn-primary">Close Auction</a>
+            {% else %}
+                {% if watching %}
+                    <a href="{% url 'edit_watchlist' listing.id %}" class="btn btn-secondary">Remove from Watchlist</a>
+                {% else %}
+                    <a href="{% url 'edit_watchlist' listing.id %}" class="btn btn-primary">Add to Watchlist</a>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <div>
+        <img class="img-listing" src="{% static listing.image.url %}" alt="{{ listing.name }}">
+    </div>
+
+    {{ listing.description}}
+    <h3>${{ listing.bid }}</h3>
+
+    <small>{{ count }} bid(s) so far.</small>
+    {% if user != listing.seller %}
+        <form action="{% url 'bid' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <input class="form-control" type="number" name="bid" placeholder="Bid">
+            </div>
+            <input type="hidden" name="listing_id" value="{{listing.id}}">
+            <input class="btn btn-primary" type="submit" value="Place Bid">
+        </form>
+    {% endif %}
+    <hr>
+    <div>
+        <h4>Details</h4>
+        <ul>
+            <li>Listed by: {{ listing.seller}}</li>
+            <li>Category: {{listing.get_category_display}}</li>
+        </ul>
+    </div>
+    <hr>
+    <div>
+        <h4>Comments</h4>
+        {% for comment in comments %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ comment.commenter }}</h5>
+                    {{ comment.message }}
+                </div>
+            </div>
+        {% endfor %}
+        <br>
+        {% if user.is_authenticated %}
+            {% if user != listing.seller %}
+                <form action="{% url 'comment' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="comment" placeholder="Write your thoughts...">
+                    </div>
+                    <input type="hidden" name="listing_id" value="{{listing.id}}">
+                    <input class="btn btn-primary" type="submit" value="Comment">
+                </form>
+            {% endif %}
+        {% endif %}
+    </div>
+    
+{% endblock %}

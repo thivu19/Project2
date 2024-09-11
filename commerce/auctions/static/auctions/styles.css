@@ -1,0 +1,41 @@
+body {
+    padding: 10px;
+}
+
+.container {
+    height: 300px;
+    min-width: 95%;
+    margin: 15px;
+    border: 2px solid;
+    border-radius: 5px;
+    border-color: rgb(200, 201, 202);
+}
+
+.container:hover {
+    border-color: rgb(87, 89, 90);
+}
+
+.container-link:link, .container-link:visited, .container-link:active {
+    text-decoration: none;
+    color: black;
+}
+
+.container-text {
+    margin-top: 50px;
+}
+
+.img {
+    float: left;
+    width: 100%;
+    max-width: 250px; 
+    max-height: 250px;
+    margin: 25px;
+    object-fit: contain;
+}
+
+.img-listing {
+    width: 100%;
+    max-height: 350px;
+    margin: 25px;
+    object-fit: contain;
+}

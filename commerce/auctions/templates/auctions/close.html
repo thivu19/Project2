@@ -1,0 +1,27 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+
+{% block title %}{{ listing.name }}{% endblock %}
+
+{% block body %}
+
+    <h1 class="text-center card text-white bg-success">Winner is {{ winner }}!</h1>
+    <br>
+    <h2>Listings: {{ listing.name }}</h2>
+
+    <div>
+        <img class="img-listing" src="{% static listing.image.url %}" alt="{{ listing.name }}">
+    </div>
+
+    {{ listing.description}}
+    <h3>${{ highest_bid }}</h3>
+    <hr>
+    <div>
+        <h4>Details</h4>
+        <ul>
+            <li>Listed by: {{ listing.seller}}</li>
+            <li>Category: {{listing.get_category_display}}</li>
+        </ul>
+    </div>
+    
+{% endblock %}

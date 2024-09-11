@@ -1,0 +1,40 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <h2>Watchlist</h2>
+
+    <ul>
+        {% for auction in watchlist %}
+            {% if auction.available %}
+                <a class="container-link" href="{% url 'listing' auction.id %}" >
+                    <div class="container">
+                        <div>
+                            <img class="img" src="{% static auction.image.url %}" alt="{{ auction.name }}">
+                        </div>
+                        <div class="container-text">
+                            <div><h3>{{ auction.name }}</h3></div>
+                            <div><strong>Price:</strong> ${{ auction.bid }}</div>
+                            <div>{{ auction.description }}</div>   
+                            <div style="color:lightslategray"><small>Created {{ auction.created }}</small></div>
+                        </div>
+                    </div>
+                </a>
+            {% else %}
+                <a class="container-link" href="{% url 'close' auction.id %}">
+                    <div class="container">
+                        <div>
+                            <img class="img" src="{% static auction.image.url %}" alt="{{ auction.name }}">
+                        </div>
+                        <div class="container-text">
+                            <div><h3>{{ auction.name }}</h3></div>
+                            <div style="color:green"><strong>Sold:</strong> ${{ auction.bid }}</div>
+                            <div>{{ auction.description }}</div>   
+                            <div style="color:lightslategray"><small>Created {{ auction.created }}</small></div>
+                        </div>
+                    </div>
+                </a>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}
